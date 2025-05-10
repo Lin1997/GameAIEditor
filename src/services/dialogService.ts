@@ -385,6 +385,7 @@ export const useDialogService = () => {
    * TODO: Remove the news dialog on next major feature release.
    */
   function showApiNodesNewsDialog() {
+    return
     if (localStorage.getItem('api-nodes-news-seen') === 'true') {
       return
     }

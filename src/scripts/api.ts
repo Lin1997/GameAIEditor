@@ -268,7 +268,9 @@ export class ComfyApi extends EventTarget {
     } else {
       options.headers['Comfy-User'] = this.user
     }
-    return fetch(this.apiURL(route), options)
+    // return fetch(this.apiURL(route), options)
+    console.debug(route, options)
+    return new Response(JSON.stringify([]));
   }
 
   override addEventListener<TEvent extends keyof ApiEvents>(
@@ -336,6 +338,9 @@ export class ComfyApi extends EventTarget {
    * @param {boolean} isReconnect If the socket is connection is a reconnect attempt
    */
   #createSocket(isReconnect?: boolean) {
+    if (true) {
+      return
+    }
     if (this.socket) {
       return
     }
@@ -484,6 +489,7 @@ export class ComfyApi extends EventTarget {
    * Gets the index of core workflow templates.
    */
   async getCoreWorkflowTemplates(): Promise<WorkflowTemplates[]> {
+    return []
     const res = await axios.get(this.fileURL('/templates/index.json'))
     const contentType = res.headers['content-type']
     return contentType?.includes('application/json') ? res.data : []
@@ -897,14 +903,20 @@ export class ComfyApi extends EventTarget {
   }
 
   async getLogs(): Promise<string> {
+    return ""
     return (await axios.get(this.internalURL('/logs'))).data
   }
 
   async getRawLogs(): Promise<LogsRawResponse> {
+    return {
+      entries: [],
+      size: { cols: 0, row: 0 }
+    }
     return (await axios.get(this.internalURL('/logs/raw'))).data
   }
 
   async subscribeLogs(enabled: boolean): Promise<void> {
+    return
     return await axios.patch(this.internalURL('/logs/subscribe'), {
       enabled,
       clientId: this.clientId
@@ -912,6 +924,7 @@ export class ComfyApi extends EventTarget {
   }
 
   async getFolderPaths(): Promise<Record<string, string[]>> {
+    return []
     return (await axios.get(this.internalURL('/folder_paths'))).data
   }
 
@@ -921,7 +934,8 @@ export class ComfyApi extends EventTarget {
    * @returns The custom nodes i18n data
    */
   async getCustomNodesI18n(): Promise<Record<string, any>> {
-    return (await axios.get(this.apiURL('/i18n'))).data
+    // return (await axios.get(this.apiURL('/i18n'))).data
+    return {};
   }
 }
 

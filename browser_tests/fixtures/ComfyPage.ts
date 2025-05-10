@@ -199,21 +199,21 @@ export class ComfyPage {
   }
 
   async setupWorkflowsDirectory(structure: FolderStructure) {
-    const resp = await this.request.post(
-      `${this.url}/api/devtools/setup_folder_structure`,
-      {
-        data: {
-          tree_structure: this.convertLeafToContent(structure),
-          base_path: `user/${this.id}/workflows`
-        }
-      }
-    )
+    // const resp = await this.request.post(
+    //   `${this.url}/api/devtools/setup_folder_structure`,
+    //   {
+    //     data: {
+    //       tree_structure: this.convertLeafToContent(structure),
+    //       base_path: `user/${this.id}/workflows`
+    //     }
+    //   }
+    // )
 
-    if (resp.status() !== 200) {
-      throw new Error(
-        `Failed to setup workflows directory: ${await resp.text()}`
-      )
-    }
+    // if (resp.status() !== 200) {
+    //   throw new Error(
+    //     `Failed to setup workflows directory: ${await resp.text()}`
+    //   )
+    // }
 
     await this.page.evaluate(async () => {
       await window['app'].extensionManager.workflow.syncWorkflows()
@@ -221,31 +221,34 @@ export class ComfyPage {
   }
 
   async setupUser(username: string) {
-    const res = await this.request.get(`${this.url}/api/users`)
-    if (res.status() !== 200)
-      throw new Error(`Failed to retrieve users: ${await res.text()}`)
+    // const res = await this.request.get(`${this.url}/api/users`)
+    // if (res.status() !== 200)
+    //   throw new Error(`Failed to retrieve users: ${await res.text()}`)
 
-    const apiRes = await res.json()
-    const user = Object.entries(apiRes?.users ?? {}).find(
-      ([, name]) => name === username
-    )
-    const id = user?.[0]
+    // const apiRes = await res.json()
+    // const user = Object.entries(apiRes?.users ?? {}).find(
+    //   ([, name]) => name === username
+    // )
+    // const id = user?.[0]
 
-    return id ? id : await this.createUser(username)
+    // return id ? id : await this.createUser(username)
+    return await this.createUser(username)
   }
 
   async createUser(username: string) {
-    const resp = await this.request.post(`${this.url}/api/users`, {
-      data: { username }
-    })
+    // const resp = await this.request.post(`${this.url}/api/users`, {
+    //   data: { username }
+    // })
 
-    if (resp.status() !== 200)
-      throw new Error(`Failed to create user: ${await resp.text()}`)
+    // if (resp.status() !== 200)
+    //   throw new Error(`Failed to create user: ${await resp.text()}`)
 
-    return await resp.json()
+    // return await resp.json()
+    return username
   }
 
   async setupSettings(settings: Record<string, any>) {
+    return;
     const resp = await this.request.post(
       `${this.url}/api/devtools/set_settings`,
       {

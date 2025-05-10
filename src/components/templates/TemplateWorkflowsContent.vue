@@ -84,6 +84,10 @@ const { isReady } = useAsyncState(
 
 const selectedTab = ref<WorkflowTemplates | null>(null)
 const selectFirstTab = () => {
+  const groupedTemplates = workflowTemplatesStore.groupedTemplates
+  if (!groupedTemplates?.[0]?.modules?.[0]) {
+    return
+  }
   const firstTab = workflowTemplatesStore.groupedTemplates[0].modules[0]
   handleTabSelection(firstTab)
 }
