@@ -852,12 +852,26 @@ export class ComfyApp {
         .join('/')
     })
 
-    return _.mapValues(
-      await api.getNodeDefs({
-        validate: useSettingStore().get('Comfy.Validation.NodeDefs')
-      }),
-      (def) => translateNodeDef(def)
-    )
+    // Fetch NodeDefs from the API
+    const apiNodeDefs = await api.getNodeDefs({
+      validate: useSettingStore().get('Comfy.Validation.NodeDefs')
+    })
+
+    // Read NodeDefs from a JSON file
+    let fileNodeDefs: Record<string, ComfyNodeDefV1> = {}
+    try {
+      fileNodeDefs = await fetch('assets/aiNodeDefs.json').then((r) => r.json())
+    } catch (error) {
+      console.warn('Failed to load NodeDefs from JSON file:', error)
+    }
+
+    // Merge NodeDefs from API and JSON file
+    const mergedNodeDefs = {
+      ..._.mapValues(apiNodeDefs, translateNodeDef),
+      ..._.mapValues(fileNodeDefs, translateNodeDef)
+    }
+
+    return _.mapValues(mergedNodeDefs, (def) => translateNodeDef(def))
   }
 
   /**

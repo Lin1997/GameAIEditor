@@ -1,0 +1,32 @@
+{
+  "AttackNode": {
+    "name": "AttackNode",
+    "display_name": "攻击",
+    "category": "aiNode",
+    "input": {
+      "required": {},
+      "optional": {}
+    },
+    "output": [],
+    "output_name": [],
+    "output_is_list": [false],
+    "output_node": true,
+    "python_module": "nodes",
+    "description": "攻击目标"
+  },
+  "SelectTargetNode": {
+    "name": "SelectTargetNode",
+    "display_name": "目标选择",
+    "category": "aiNode",
+    "input": {
+      "required": {},
+      "optional": {}
+    },
+    "output": [],
+    "output_name": [],
+    "output_is_list": [],
+    "output_node": false,
+    "python_module": "nodes",
+    "description": "根据条件选择一个目标"
+  }
+}
